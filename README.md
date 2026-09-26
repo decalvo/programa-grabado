@@ -18,8 +18,9 @@ python -m venv .venv
 ```
 
 1. **Abrir foto…** en la barra superior.
-2. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
-3. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
+2. En el panel **Tramado**, elige el tipo: Jarvis (por defecto), Floyd-Steinberg, Stucki o Semitono (puntos agrupados en una cuadrícula a 45°, pensada para 254 DPI: un punto cada 0,57 mm).
+3. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
+4. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
 
 ## Pruebas
 
