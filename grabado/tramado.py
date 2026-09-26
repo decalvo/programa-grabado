@@ -47,7 +47,7 @@ def tramar(
     }
 
 
-@njit(cache=True)
+@njit(cache=True, nogil=True)
 def _difundir(densidades, etiquetas, capa, dys, dxs, pesos):
     # El error solo se reparte entre píxeles de la misma capa, para que no aparezcan
     # puntos fuera de ella; los pesos se renormalizan con los vecinos válidos.
