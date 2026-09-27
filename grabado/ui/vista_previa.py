@@ -78,7 +78,11 @@ class VistaPrevia(VistaImagen):
         # Solo el hilo de trabajo toca esta caché.
         g = self._reducida
         if g is None or g[0] is not foto or g[1] is not mascara or g[2] != tamano:
-            foto_r = foto.resize(tamano, Image.Resampling.LANCZOS)
+            # Tras un trazo de retoque solo cambia la máscara: la foto reducida se reutiliza.
+            if g is not None and g[0] is foto and g[2] == tamano:
+                foto_r = g[3]
+            else:
+                foto_r = foto.resize(tamano, Image.Resampling.LANCZOS)
             mascara_r = None
             if mascara is not None:
                 mascara_r = mascara.convert("L").resize(tamano, Image.Resampling.BILINEAR)
