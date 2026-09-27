@@ -19,10 +19,11 @@ python -m venv .venv
 
 1. **Abrir foto…** en la barra superior.
 2. **Eliminar fondo** (opcional): la IA local recorta al sujeto (personas o mascota) y el fondo se ve como un damero gris; el fondo queda blanco (sin grabar) en todos los BMP. Tarda unos 20 s por foto. La primera vez descarga el modelo (224 MB) a `%LOCALAPPDATA%\ProgramaGrabado\modelos`; después funciona sin internet. Usa la GPU (DirectML) si puede y si no la CPU.
-3. En el panel **Cortes tonales**, mueve los deslizadores Negro/Oscuro, Oscuro/Medio y Medio/Claro mirando la pestaña **Vista previa**, que simula el tramado de cada capa en tonos de café sobre madera (el fondo se ve en gris). Parten del reparto automático; **Automático** vuelve a él.
-4. En el panel **Tramado**, elige el tipo: Jarvis (por defecto), Floyd-Steinberg, Stucki o Semitono (puntos agrupados en una cuadrícula a 45°, pensada para 254 DPI: un punto cada 0,57 mm).
-5. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
-6. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
+3. En el panel **Ajustes previos** (opcional), realza el sujeto antes de separarlo en capas: **Auto-mejorar** estira sus tonos a casi toda la gama y le da un poco de nitidez, y deja los deslizadores **Brillo**, **Contraste** y **Nitidez** en esos valores para afinarlos; **Neutro** los vuelve a 0. Con los cortes automáticos, que siempre reparten el sujeto en cuatro partes iguales, el brillo y el contraste se notan sobre todo en lo denso de la capa Negro; con cortes elegidos a mano mueven píxeles de una capa a otra.
+4. En el panel **Cortes tonales**, mueve los deslizadores Negro/Oscuro, Oscuro/Medio y Medio/Claro mirando la pestaña **Vista previa**, que simula el tramado de cada capa en tonos de café sobre madera (el fondo se ve en gris). Parten del reparto automático; **Automático** vuelve a él.
+5. En el panel **Tramado**, elige el tipo: Jarvis (por defecto), Floyd-Steinberg, Stucki o Semitono (puntos agrupados en una cuadrícula a 45°, pensada para 254 DPI: un punto cada 0,57 mm).
+6. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
+7. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
 
 ### Plantilla de calibración
 

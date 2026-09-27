@@ -26,6 +26,10 @@ _Avoid_: Silueta, máscara (la máscara es solo el medio para obtener el recorte
 La corrección manual del recorte con un pincel que borra o recupera zonas donde la eliminación automática del fondo se equivocó.
 _Avoid_: Edición, corrección
 
+**Ajustes previos**:
+El brillo, el contraste y la nitidez que se aplican al sujeto antes de la separación tonal, para realzar fotos planas; "auto-mejorar" los elige según la foto y el usuario los afina.
+_Avoid_: Filtros, retoque (el retoque es el pincel que corrige el recorte)
+
 **Contorno**:
 Una línea opcional que se graba siguiendo el borde del sujeto, como un trazo dibujado; el usuario decide si agregarla. No es una línea de corte.
 _Avoid_: Borde, silueta, outline

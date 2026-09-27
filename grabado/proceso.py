@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageOps
 
-from grabado import tonal, tramado
+from grabado import ajustes_previos, tonal, tramado
 from grabado.tonal import Capa, Cortes
 
 MM_POR_PULGADA = 25.4
@@ -19,6 +19,10 @@ class Ajustes:
     # None = cortes tonales automáticos.
     cortes: Cortes | None = None
     metodo_tramado: str = tramado.METODO_POR_DEFECTO
+    # Ajustes previos a la separación tonal (ver grabado.ajustes_previos); 0 = neutro.
+    brillo: int = 0
+    contraste: int = 0
+    nitidez: int = 0
 
 
 @dataclass(frozen=True)
@@ -50,7 +54,7 @@ def tamano_final_px(tamano_origen: tuple[int, int], ancho_mm: float, dpi: int) -
 
 
 def procesar(foto: Image.Image, ajustes: Ajustes, mascara: Image.Image | None = None) -> Resultado:
-    """Ajusta la foto al tamaño final, la separa en capas tonales y trama cada capa.
+    """Ajusta la foto al tamaño final, le aplica los ajustes previos, la separa en capas tonales y trama cada capa.
 
     `mascara` es una imagen del tamaño de la foto: blanco = sujeto, negro = fondo.
     Si no se da y la foto tiene transparencia, se usa su canal alfa.
@@ -65,6 +69,10 @@ def procesar(foto: Image.Image, ajustes: Ajustes, mascara: Image.Image | None = 
     mascara_final = None
     if mascara is not None:
         mascara_final = np.asarray(mascara.convert("L").resize(tamano, Image.Resampling.BILINEAR)) >= 128
+    # Ya al tamaño final, para que la nitidez mida lo mismo en mm con cualquier foto.
+    gris = ajustes_previos.aplicar(
+        gris, ajustes.brillo, ajustes.contraste, ajustes.nitidez, ajustes.dpi, mascara_final
+    )
 
     cortes = ajustes.cortes or tonal.cortes_automaticos(gris, mascara_final)
     etiquetas = tonal.separar(gris, cortes, mascara_final)

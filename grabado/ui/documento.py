@@ -29,7 +29,8 @@ class Documento(QObject):
         self.ruta = Path(ruta)
         self.foto = cargar_foto(ruta)
         self.mascara = None
-        self.ajustes = replace(self.ajustes, cortes=None)
+        # Los cortes y los ajustes previos dependen de la foto: se vuelve a los automáticos y neutros.
+        self.ajustes = replace(self.ajustes, cortes=None, brillo=0, contraste=0, nitidez=0)
         self.cambiado.emit()
 
     def cambiar_mascara(self, mascara: Image.Image | None) -> None:
