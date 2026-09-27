@@ -21,6 +21,7 @@ from grabado.ui.panel_contorno import PanelContorno
 from grabado.ui.panel_cortes import PanelCortes
 from grabado.ui.panel_exportar import PanelExportar
 from grabado.ui.panel_tramado import PanelTramado
+from grabado.ui.retoque import PanelRetoque
 from grabado.ui.vista import VistaImagen, componer_recorte
 from grabado.ui.vista_previa import VistaPrevia
 
@@ -58,6 +59,9 @@ class Ventana(QMainWindow):
         self.paneles = QVBoxLayout(lateral)
         self.panel_cortes = PanelCortes(self.documento)
         self.vista_previa.procesado.connect(self.panel_cortes.mostrar_resultado)
+        self.panel_retoque = PanelRetoque(self.documento, self.vista)
+        self.panel_retoque.activado.connect(lambda: self.pestanas.setCurrentWidget(self.vista))
+        self.paneles.addWidget(self.panel_retoque)
         self.paneles.addWidget(self.panel_cortes)
         self.paneles.addWidget(PanelTramado(self.documento))
         self.panel_contorno = PanelContorno(self.documento)
