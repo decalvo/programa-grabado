@@ -21,8 +21,9 @@ python -m venv .venv
 2. **Eliminar fondo** (opcional): la IA local recorta al sujeto (personas o mascota) y el fondo se ve como un damero gris; el fondo queda blanco (sin grabar) en todos los BMP. Tarda unos 20 s por foto. La primera vez descarga el modelo (224 MB) a `%LOCALAPPDATA%\ProgramaGrabado\modelos`; después funciona sin internet. Usa la GPU (DirectML) si puede y si no la CPU.
 3. En el panel **Cortes tonales**, mueve los deslizadores Negro/Oscuro, Oscuro/Medio y Medio/Claro mirando la pestaña **Vista previa**, que simula el tramado de cada capa en tonos de café sobre madera (el fondo se ve en gris). Parten del reparto automático; **Automático** vuelve a él.
 4. En el panel **Tramado**, elige el tipo: Jarvis (por defecto), Floyd-Steinberg, Stucki o Semitono (puntos agrupados en una cuadrícula a 45°, pensada para 254 DPI: un punto cada 0,57 mm).
-5. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
-6. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
+5. En el panel **Contorno** (opcional, necesita el fondo eliminado), marca **Agregar contorno** para grabar una línea por dentro del borde del sujeto, como un trazo dibujado (no es una línea de corte), y elige su grosor en mm (1 mm por defecto). El borde se suaviza para que la línea no salga dentada; bajo la línea no se graban puntos de las capas. En la vista previa se ve en café muy oscuro.
+6. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
+7. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` (y `*_4_contorno.bmp` si agregaste el contorno) y `*_medidas.txt` con las medidas y los pasos para RDWorks.
 
 ### Plantilla de calibración
 

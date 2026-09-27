@@ -27,7 +27,7 @@ La corrección manual del recorte con un pincel que borra o recupera zonas donde
 _Avoid_: Edición, corrección
 
 **Contorno**:
-Una línea opcional que se graba siguiendo el borde del sujeto, como un trazo dibujado; el usuario decide si agregarla. No es una línea de corte.
+Una línea opcional que se graba siguiendo el borde del sujeto, como un trazo dibujado; el usuario decide si agregarla. No es una línea de corte. Va por dentro del borde del recorte y se graba sola: bajo ella no se graban las capas tonales.
 _Avoid_: Borde, silueta, outline
 
 ### Separación tonal

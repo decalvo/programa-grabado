@@ -19,6 +19,9 @@ PALETA: dict[Capa, Color] = {
 # Claro y los huecos del tramado no se graban: quedan como madera natural.
 MADERA: Color = (226, 192, 146)
 
+# Contorno: un café más oscuro que Negro, para distinguir la línea de los puntos de las capas.
+COLOR_CONTORNO: Color = (28, 16, 8)
+
 # Fuera del sujeto. Se muestra en gris para distinguirlo de la madera del sujeto.
 COLOR_FONDO: Color = (190, 190, 190)
 
@@ -40,6 +43,7 @@ def simular(
     paleta: dict[Capa, Color] = PALETA,
     madera: Color = MADERA,
     fondo: Color = COLOR_FONDO,
+    contorno: Color = COLOR_CONTORNO,
 ) -> Image.Image:
     """Imagen RGB del tamaño del resultado con cada punto grabado en el café de su capa."""
     alto, ancho = resultado.etiquetas.shape
@@ -48,4 +52,6 @@ def simular(
     pixeles[resultado.etiquetas == FONDO] = fondo
     for capa in CAPAS_GRABADAS:
         pixeles[resultado.capas[capa]] = paleta[capa]
+    if resultado.contorno is not None:
+        pixeles[resultado.contorno] = contorno
     return Image.fromarray(pixeles, "RGB")

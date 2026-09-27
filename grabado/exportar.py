@@ -14,6 +14,8 @@ NOMBRES_CAPA = {
     Capa.MEDIO: "3_medio",
 }
 
+NOMBRE_CONTORNO = "4_contorno"
+
 
 def a_bmp(grabar: np.ndarray, ruta: Path, dpi: int) -> None:
     """Negro = grabar, blanco = no grabar (fondo, capa Claro y huecos del tramado)."""
@@ -30,6 +32,10 @@ def exportar(resultado: Resultado, carpeta: str | Path, nombre_base: str) -> lis
     for capa, nombre in NOMBRES_CAPA.items():
         ruta = carpeta / f"{nombre_base}_{nombre}.bmp"
         a_bmp(resultado.capas[capa], ruta, resultado.dpi)
+        archivos.append(ruta)
+    if resultado.contorno is not None:
+        ruta = carpeta / f"{nombre_base}_{NOMBRE_CONTORNO}.bmp"
+        a_bmp(resultado.contorno, ruta, resultado.dpi)
         archivos.append(ruta)
 
     medidas = carpeta / f"{nombre_base}_medidas.txt"
@@ -53,6 +59,14 @@ def texto_medidas(resultado: Resultado, nombres: list[str]) -> str:
         *[f"  - {nombre}" for nombre in nombres],
         "",
         "La capa Claro no se exporta: queda como madera natural.",
+        *(
+            [
+                f"El contorno ({NOMBRE_CONTORNO}) es una línea grabada por dentro del borde del sujeto,",
+                "no una línea de corte: grábalo como una capa más, con su propia potencia.",
+            ]
+            if resultado.contorno is not None
+            else []
+        ),
         "",
         "En RDWorks:",
         "  1. Importa cada BMP y escribe el ancho y alto de arriba (bloquea la proporción).",
