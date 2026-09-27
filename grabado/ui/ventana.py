@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 from grabado import calibracion
 from grabado.ui.documento import Documento
 from grabado.ui.eliminar_fondo import EliminarFondo
+from grabado.ui.panel_ajustes_previos import PanelAjustesPrevios
 from grabado.ui.panel_contorno import PanelContorno
 from grabado.ui.panel_cortes import PanelCortes
 from grabado.ui.panel_exportar import PanelExportar
@@ -57,11 +58,13 @@ class Ventana(QMainWindow):
         # Cada funcionalidad agrega su panel a esta columna.
         lateral = QWidget()
         self.paneles = QVBoxLayout(lateral)
+        self.panel_ajustes_previos = PanelAjustesPrevios(self.documento)
         self.panel_cortes = PanelCortes(self.documento)
         self.vista_previa.procesado.connect(self.panel_cortes.mostrar_resultado)
         self.panel_retoque = PanelRetoque(self.documento, self.vista)
         self.panel_retoque.activado.connect(lambda: self.pestanas.setCurrentWidget(self.vista))
         self.paneles.addWidget(self.panel_retoque)
+        self.paneles.addWidget(self.panel_ajustes_previos)
         self.paneles.addWidget(self.panel_cortes)
         self.paneles.addWidget(PanelTramado(self.documento))
         self.panel_contorno = PanelContorno(self.documento)
