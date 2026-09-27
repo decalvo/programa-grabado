@@ -1,7 +1,9 @@
 """Ventana principal: la imagen al centro y los paneles de trabajo a la derecha."""
 
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import (
+    QApplication,
     QFileDialog,
     QHBoxLayout,
     QMainWindow,
@@ -12,9 +14,11 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from grabado import calibracion
 from grabado.ui.documento import Documento
 from grabado.ui.panel_cortes import PanelCortes
 from grabado.ui.panel_exportar import PanelExportar
+from grabado.ui.panel_tramado import PanelTramado
 from grabado.ui.vista import VistaImagen
 from grabado.ui.vista_previa import VistaPrevia
 
@@ -34,6 +38,9 @@ class Ventana(QMainWindow):
         abrir.setShortcut(QKeySequence.StandardKey.Open)
         abrir.triggered.connect(self._abrir)
         barra.addAction(abrir)
+        calibrar = QAction("Plantilla de calibración…", self)
+        calibrar.triggered.connect(self._exportar_calibracion)
+        barra.addAction(calibrar)
         self.barra = barra
 
         self.vista = VistaImagen("Abre una foto para empezar")
@@ -48,6 +55,7 @@ class Ventana(QMainWindow):
         self.panel_cortes = PanelCortes(self.documento)
         self.vista_previa.procesado.connect(self.panel_cortes.mostrar_resultado)
         self.paneles.addWidget(self.panel_cortes)
+        self.paneles.addWidget(PanelTramado(self.documento))
         self.paneles.addWidget(PanelExportar(self.documento))
         self.paneles.addStretch()
         desplazable = QScrollArea()
@@ -73,6 +81,29 @@ class Ventana(QMainWindow):
             QMessageBox.warning(self, "No se pudo abrir la foto", str(error))
             return
         self.setWindowTitle(f"Programa grabado - {self.documento.ruta.name}")
+
+    def _exportar_calibracion(self) -> None:
+        ajustes = self.documento.ajustes
+        inicio = str(self.documento.ruta.parent) if self.documento.ruta else ""
+        carpeta = QFileDialog.getExistingDirectory(self, "Carpeta para la plantilla de calibración", inicio)
+        if not carpeta:
+            return
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            plantilla = calibracion.crear(ajustes.dpi, ajustes.metodo_tramado)
+            archivos = calibracion.exportar(plantilla, carpeta)
+        except OSError as error:
+            QMessageBox.warning(self, "No se pudo exportar la plantilla", str(error))
+            return
+        finally:
+            QApplication.restoreOverrideCursor()
+        ancho_mm, alto_mm = plantilla.tamano_mm
+        QMessageBox.information(
+            self,
+            "Plantilla de calibración lista",
+            f"Lienzo de {ancho_mm:.1f} × {alto_mm:.1f} mm a {ajustes.dpi} DPI.\n"
+            "Archivos creados:\n" + "\n".join(a.name for a in archivos),
+        )
 
     def _actualizar_vista(self) -> None:
         self.vista.mostrar(self.documento.foto)
