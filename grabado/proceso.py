@@ -6,7 +6,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageOps
 
-from grabado import tonal, tramado
+from grabado import contorno, tonal, tramado
+from grabado.contorno import GROSOR_POR_DEFECTO_MM
 from grabado.tonal import Capa, Cortes
 
 MM_POR_PULGADA = 25.4
@@ -19,6 +20,9 @@ class Ajustes:
     # None = cortes tonales automáticos.
     cortes: Cortes | None = None
     metodo_tramado: str = tramado.METODO_POR_DEFECTO
+    # Línea grabada por dentro del borde del sujeto; solo si hay recorte.
+    contorno: bool = False
+    grosor_contorno_mm: float = GROSOR_POR_DEFECTO_MM
 
 
 @dataclass(frozen=True)
@@ -29,6 +33,8 @@ class Resultado:
     etiquetas: np.ndarray
     capas: dict[Capa, np.ndarray]
     dpi: int
+    # Píxeles del contorno (True = grabar); None si no se pidió o no hay recorte.
+    contorno: np.ndarray | None = None
 
     @property
     def tamano_mm(self) -> tuple[float, float]:
@@ -70,4 +76,12 @@ def procesar(foto: Image.Image, ajustes: Ajustes, mascara: Image.Image | None = 
     etiquetas = tonal.separar(gris, cortes, mascara_final)
     densidades = tramado.densidad(gris, cortes, etiquetas)
     capas = tramado.tramar(densidades, etiquetas, ajustes.metodo_tramado)
-    return Resultado(gris, mascara_final, cortes, etiquetas, capas, ajustes.dpi)
+    linea = None
+    if ajustes.contorno and mascara_final is not None:
+        grosor = contorno.grosor_px(ajustes.grosor_contorno_mm, ajustes.dpi)
+        linea, interior = contorno.calcular(mascara_final, grosor)
+        # Cada píxel se graba una sola vez: bajo el contorno (y fuera de él) no quedan puntos de las capas.
+        capas = {capa: puntos & interior for capa, puntos in capas.items()}
+        # Los pelitos que quedan fuera de la línea no se graban: se ven como fondo.
+        etiquetas = np.where(linea | interior, etiquetas, tonal.FONDO).astype(etiquetas.dtype)
+    return Resultado(gris, mascara_final, cortes, etiquetas, capas, ajustes.dpi, linea)

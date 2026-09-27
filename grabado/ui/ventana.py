@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 from grabado import calibracion
 from grabado.ui.documento import Documento
 from grabado.ui.eliminar_fondo import EliminarFondo
+from grabado.ui.panel_contorno import PanelContorno
 from grabado.ui.panel_cortes import PanelCortes
 from grabado.ui.panel_exportar import PanelExportar
 from grabado.ui.panel_tramado import PanelTramado
@@ -63,6 +64,8 @@ class Ventana(QMainWindow):
         self.paneles.addWidget(self.panel_retoque)
         self.paneles.addWidget(self.panel_cortes)
         self.paneles.addWidget(PanelTramado(self.documento))
+        self.panel_contorno = PanelContorno(self.documento)
+        self.paneles.addWidget(self.panel_contorno)
         self.paneles.addWidget(PanelExportar(self.documento))
         self.paneles.addStretch()
         desplazable = QScrollArea()
