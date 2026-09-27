@@ -16,10 +16,11 @@ from PySide6.QtWidgets import (
 
 from grabado import calibracion
 from grabado.ui.documento import Documento
+from grabado.ui.eliminar_fondo import EliminarFondo
 from grabado.ui.panel_cortes import PanelCortes
 from grabado.ui.panel_exportar import PanelExportar
 from grabado.ui.panel_tramado import PanelTramado
-from grabado.ui.vista import VistaImagen
+from grabado.ui.vista import VistaImagen, componer_recorte
 from grabado.ui.vista_previa import VistaPrevia
 
 FILTRO_FOTOS = "Fotos (*.jpg *.jpeg *.png *.bmp *.webp)"
@@ -42,6 +43,8 @@ class Ventana(QMainWindow):
         calibrar.triggered.connect(self._exportar_calibracion)
         barra.addAction(calibrar)
         self.barra = barra
+        self.eliminar_fondo = EliminarFondo(self, self.documento)
+        barra.addAction(self.eliminar_fondo.accion)
 
         self.vista = VistaImagen("Abre una foto para empezar")
         self.vista_previa = VistaPrevia(self.documento)
@@ -69,6 +72,8 @@ class Ventana(QMainWindow):
         layout.addWidget(desplazable)
         self.setCentralWidget(central)
 
+        # Recorte ya compuesto, para no rehacerlo cuando solo cambian los ajustes.
+        self._recorte = (None, None, None)
         self.documento.cambiado.connect(self._actualizar_vista)
 
     def _abrir(self) -> None:
@@ -106,4 +111,12 @@ class Ventana(QMainWindow):
         )
 
     def _actualizar_vista(self) -> None:
-        self.vista.mostrar(self.documento.foto)
+        foto, mascara = self.documento.foto, self.documento.mascara
+        if foto is None or mascara is None:
+            self.vista.mostrar(foto)
+            return
+        foto_previa, mascara_previa, recorte = self._recorte
+        if foto is not foto_previa or mascara is not mascara_previa:
+            recorte = componer_recorte(foto, mascara)
+            self._recorte = (foto, mascara, recorte)
+        self.vista.mostrar(recorte)
