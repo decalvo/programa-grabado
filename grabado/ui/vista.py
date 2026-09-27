@@ -19,8 +19,13 @@ class VistaImagen(QLabel):
         self.setMinimumSize(200, 200)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self._pixmap: QPixmap | None = None
+        self._imagen: Image.Image | None = None
 
     def mostrar(self, imagen: Image.Image | None) -> None:
+        # Convertir una foto grande tarda: si es la misma imagen de antes, no se repite.
+        if imagen is not None and imagen is self._imagen:
+            return
+        self._imagen = imagen
         self._pixmap = QPixmap.fromImage(a_qimage(imagen)) if imagen is not None else None
         self._actualizar()
 

@@ -9,15 +9,18 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QScrollArea,
+    QTabWidget,
     QVBoxLayout,
     QWidget,
 )
 
 from grabado import calibracion
 from grabado.ui.documento import Documento
+from grabado.ui.panel_cortes import PanelCortes
 from grabado.ui.panel_exportar import PanelExportar
 from grabado.ui.panel_tramado import PanelTramado
 from grabado.ui.vista import VistaImagen
+from grabado.ui.vista_previa import VistaPrevia
 
 FILTRO_FOTOS = "Fotos (*.jpg *.jpeg *.png *.bmp *.webp)"
 
@@ -41,10 +44,17 @@ class Ventana(QMainWindow):
         self.barra = barra
 
         self.vista = VistaImagen("Abre una foto para empezar")
+        self.vista_previa = VistaPrevia(self.documento)
+        self.pestanas = QTabWidget()
+        self.pestanas.addTab(self.vista, "Foto")
+        self.pestanas.addTab(self.vista_previa, "Vista previa")
 
         # Cada funcionalidad agrega su panel a esta columna.
         lateral = QWidget()
         self.paneles = QVBoxLayout(lateral)
+        self.panel_cortes = PanelCortes(self.documento)
+        self.vista_previa.procesado.connect(self.panel_cortes.mostrar_resultado)
+        self.paneles.addWidget(self.panel_cortes)
         self.paneles.addWidget(PanelTramado(self.documento))
         self.paneles.addWidget(PanelExportar(self.documento))
         self.paneles.addStretch()
@@ -55,7 +65,7 @@ class Ventana(QMainWindow):
 
         central = QWidget()
         layout = QHBoxLayout(central)
-        layout.addWidget(self.vista, stretch=1)
+        layout.addWidget(self.pestanas, stretch=1)
         layout.addWidget(desplazable)
         self.setCentralWidget(central)
 

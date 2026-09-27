@@ -18,15 +18,16 @@ python -m venv .venv
 ```
 
 1. **Abrir foto…** en la barra superior.
-2. En el panel **Tramado**, elige el tipo: Jarvis (por defecto), Floyd-Steinberg, Stucki o Semitono (puntos agrupados en una cuadrícula a 45°, pensada para 254 DPI: un punto cada 0,57 mm).
-3. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
-4. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
+2. En el panel **Cortes tonales**, mueve los deslizadores Negro/Oscuro, Oscuro/Medio y Medio/Claro mirando la pestaña **Vista previa**, que simula el tramado de cada capa en tonos de café sobre madera (el fondo se ve en gris). Parten del reparto automático; **Automático** vuelve a él.
+3. En el panel **Tramado**, elige el tipo: Jarvis (por defecto), Floyd-Steinberg, Stucki o Semitono (puntos agrupados en una cuadrícula a 45°, pensada para 254 DPI: un punto cada 0,57 mm).
+4. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
+5. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
 
 ### Plantilla de calibración
 
 Antes de grabar una foto en una madera nueva, graba la plantilla para elegir la potencia de cada capa tonal:
 
-1. Elige la resolución (y el tramado) en el panel **Exportar**; no hace falta abrir una foto.
+1. Elige la resolución en el panel **Exportar** y el tipo en el panel **Tramado**; no hace falta abrir una foto.
 2. **Plantilla de calibración…** en la barra superior y elige una carpeta. Se crean `calibracion_1.bmp` … `calibracion_8.bmp` (un cuadro tramado de 15 × 15 mm con su número, todos en el mismo lienzo) y `calibracion_potencias.txt` con la potencia sugerida de cada cuadro (del 10 % al 80 %) y los pasos para RDWorks.
 3. En RDWorks importa los 8 BMP en la misma posición X/Y, asigna a cada uno su color y su potencia, y graba.
 4. Mira qué cuadro da el café que quieres para Negro, Oscuro y Medio y usa esas potencias.

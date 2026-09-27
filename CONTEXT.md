@@ -48,6 +48,10 @@ _Avoid_: Dithering, relleno
 Un tipo de tramado en que los puntos se agrupan en manchas redondas sobre una cuadrícula regular y crecen con la densidad, en lugar de repartirse sueltos como en Jarvis, Floyd-Steinberg o Stucki.
 _Avoid_: Halftone, trama de puntos
 
+**Vista previa**:
+La imagen que muestra cómo quedaría el grabado: los puntos del tramado de cada capa tonal en su tono de café y el resto como madera natural.
+_Avoid_: Render, preview
+
 ### Grabado
 
 **Potencia de capa**:
