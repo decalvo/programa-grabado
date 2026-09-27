@@ -31,7 +31,7 @@ El brillo, el contraste y la nitidez que se aplican al sujeto antes de la separa
 _Avoid_: Filtros, retoque (el retoque es el pincel que corrige el recorte)
 
 **Contorno**:
-Una línea opcional que se graba siguiendo el borde del sujeto, como un trazo dibujado; el usuario decide si agregarla. No es una línea de corte.
+Una línea opcional que se graba siguiendo el borde del sujeto, como un trazo dibujado; el usuario decide si agregarla. No es una línea de corte. Va por dentro del borde del recorte y se graba sola: bajo ella no se graban las capas tonales.
 _Avoid_: Borde, silueta, outline
 
 ### Separación tonal

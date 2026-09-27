@@ -19,11 +19,13 @@ python -m venv .venv
 
 1. **Abrir foto…** en la barra superior.
 2. **Eliminar fondo** (opcional): la IA local recorta al sujeto (personas o mascota) y el fondo se ve como un damero gris; el fondo queda blanco (sin grabar) en todos los BMP. Tarda unos 20 s por foto. La primera vez descarga el modelo (224 MB) a `%LOCALAPPDATA%\ProgramaGrabado\modelos`; después funciona sin internet. Usa la GPU (DirectML) si puede y si no la CPU.
+   - **Retoque** (opcional): marca **Pincel** en el panel **Retoque** y pinta sobre la pestaña **Foto**. **Borrar** convierte en fondo lo pintado; **Recuperar** devuelve al sujeto la foto de origen. El deslizador **Tamaño** cambia el diámetro del pincel (el círculo bajo el cursor) y **Deshacer trazo** (Ctrl+Z) deshace los últimos trazos. Si no eliminaste el fondo, se parte de toda la foto como sujeto y puedes borrar el fondo a mano.
 3. En el panel **Ajustes previos** (opcional), realza el sujeto antes de separarlo en capas: **Auto-mejorar** estira sus tonos a casi toda la gama y le da un poco de nitidez, y deja los deslizadores **Brillo**, **Contraste** y **Nitidez** en esos valores para afinarlos; **Neutro** los vuelve a 0. Con los cortes automáticos, que siempre reparten el sujeto en cuatro partes iguales, el brillo y el contraste se notan sobre todo en lo denso de la capa Negro; con cortes elegidos a mano mueven píxeles de una capa a otra.
 4. En el panel **Cortes tonales**, mueve los deslizadores Negro/Oscuro, Oscuro/Medio y Medio/Claro mirando la pestaña **Vista previa**, que simula el tramado de cada capa en tonos de café sobre madera (el fondo se ve en gris). Parten del reparto automático; **Automático** vuelve a él.
 5. En el panel **Tramado**, elige el tipo: Jarvis (por defecto), Floyd-Steinberg, Stucki o Semitono (puntos agrupados en una cuadrícula a 45°, pensada para 254 DPI: un punto cada 0,57 mm).
-6. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
-7. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` y `*_medidas.txt` con las medidas y los pasos para RDWorks.
+6. En el panel **Contorno** (opcional, necesita el fondo eliminado), marca **Agregar contorno** para grabar una línea por dentro del borde del sujeto, como un trazo dibujado (no es una línea de corte), y elige su grosor en mm (1 mm por defecto). El borde se suaviza para que la línea no salga dentada; bajo la línea no se graban puntos de las capas. En la vista previa se ve en café muy oscuro.
+7. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
+8. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` (y `*_4_contorno.bmp` si agregaste el contorno) y `*_medidas.txt` con las medidas y los pasos para RDWorks.
 
 ### Plantilla de calibración
 
