@@ -1,5 +1,6 @@
 """Widget que muestra una imagen ajustada al espacio disponible, sin deformarla."""
 
+import numpy as np
 from PIL import Image
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QImage, QPixmap
@@ -10,6 +11,23 @@ def a_qimage(imagen: Image.Image) -> QImage:
     rgba = imagen.convert("RGBA")
     datos = rgba.tobytes()
     return QImage(datos, rgba.width, rgba.height, rgba.width * 4, QImage.Format.Format_RGBA8888).copy()
+
+
+GRIS_DAMERO = (205, 205, 205)
+BLANCO_DAMERO = (245, 245, 245)
+
+
+def componer_recorte(foto: Image.Image, mascara: Image.Image) -> Image.Image:
+    """El recorte sobre un damero gris claro, para que se vea qué parte es fondo."""
+    ancho, alto = foto.size
+    casilla = max(8, min(ancho, alto) // 40)
+    filas = (np.arange(alto) // casilla)[:, None]
+    columnas = (np.arange(ancho) // casilla)[None, :]
+    damero = np.where(((filas + columnas) % 2 == 0)[..., None], GRIS_DAMERO, BLANCO_DAMERO).astype(np.uint8)
+    resultado = Image.fromarray(damero, "RGB")
+    sujeto = mascara.convert("L").resize(foto.size).point(lambda v: 255 if v >= 128 else 0)
+    resultado.paste(foto.convert("RGB"), mask=sujeto)
+    return resultado
 
 
 class VistaImagen(QLabel):

@@ -12,8 +12,9 @@ from PySide6.QtWidgets import (
 )
 
 from grabado.ui.documento import Documento
+from grabado.ui.eliminar_fondo import EliminarFondo
 from grabado.ui.panel_exportar import PanelExportar
-from grabado.ui.vista import VistaImagen
+from grabado.ui.vista import VistaImagen, componer_recorte
 
 FILTRO_FOTOS = "Fotos (*.jpg *.jpeg *.png *.bmp *.webp)"
 
@@ -32,6 +33,8 @@ class Ventana(QMainWindow):
         abrir.triggered.connect(self._abrir)
         barra.addAction(abrir)
         self.barra = barra
+        self.eliminar_fondo = EliminarFondo(self, self.documento)
+        barra.addAction(self.eliminar_fondo.accion)
 
         self.vista = VistaImagen("Abre una foto para empezar")
 
@@ -65,4 +68,5 @@ class Ventana(QMainWindow):
         self.setWindowTitle(f"Programa grabado - {self.documento.ruta.name}")
 
     def _actualizar_vista(self) -> None:
-        self.vista.mostrar(self.documento.foto)
+        foto, mascara = self.documento.foto, self.documento.mascara
+        self.vista.mostrar(componer_recorte(foto, mascara) if foto is not None and mascara is not None else foto)
