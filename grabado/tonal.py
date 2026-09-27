@@ -38,3 +38,25 @@ def separar(gris: np.ndarray, cortes: Cortes, mascara: np.ndarray | None = None)
     if mascara is not None:
         etiquetas[~mascara] = FONDO
     return etiquetas
+
+
+def mover_corte(cortes: Cortes, indice: int, valor: float) -> Cortes:
+    """Mueve un corte tonal sin cruzar a sus vecinos: queda al menos 1 tono de cada lado.
+
+    Si los cortes de partida están pegados (p. ej. dos iguales), primero se separan.
+    """
+    c = list(ordenar_cortes(cortes))
+    bajo = c[indice - 1] + 1 if indice > 0 else 0.0
+    alto = c[indice + 1] - 1 if indice < 2 else 255.0
+    c[indice] = min(max(float(valor), bajo), alto)
+    return c[0], c[1], c[2]
+
+
+def ordenar_cortes(cortes: Cortes) -> Cortes:
+    """Deja los cortes dentro de 0-255 y estrictamente crecientes, a 1 tono como mínimo."""
+    c0, c1, c2 = (min(max(float(v), 0.0), 255.0) for v in cortes)
+    c1 = max(c1, c0 + 1)
+    c2 = min(max(c2, c1 + 1), 255.0)
+    c1 = min(c1, c2 - 1)
+    c0 = min(max(c0, 0.0), c1 - 1)
+    return c0, c1, c2
