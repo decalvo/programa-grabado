@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import BinaryIO
 
 import numpy as np
 from PIL import Image, ImageOps
@@ -46,8 +47,8 @@ class Resultado:
         return ancho / self.dpi * MM_POR_PULGADA, alto / self.dpi * MM_POR_PULGADA
 
 
-def cargar_foto(ruta: str | Path) -> Image.Image:
-    """Abre la foto de origen respetando la orientación guardada por la cámara."""
+def cargar_foto(ruta: str | Path | BinaryIO) -> Image.Image:
+    """Abre la foto de origen (un archivo o sus bytes) respetando la orientación guardada por la cámara."""
     with Image.open(ruta) as foto:
         return ImageOps.exif_transpose(foto).copy()
 

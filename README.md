@@ -27,6 +27,12 @@ python -m venv .venv
 7. En el panel **Exportar**, escribe el ancho final en mm y la resolución (254 DPI = intervalo de 0,1 mm).
 8. **Exportar capas…** y elige una carpeta. Se crean `*_1_negro.bmp`, `*_2_oscuro.bmp`, `*_3_medio.bmp` (y `*_4_contorno.bmp` si agregaste el contorno) y `*_medidas.txt` con las medidas y los pasos para RDWorks.
 
+### Proyecto
+
+**Guardar proyecto** (Ctrl+S) guarda el trabajo en curso en un solo archivo `.grabado`: la foto de origen tal cual (sin recomprimir), el recorte retocado y todos los ajustes (ajustes previos, cortes tonales, tramado, contorno, ancho y DPI). La primera vez pregunta dónde; después guarda en el mismo archivo (**Guardar proyecto como…**, Ctrl+Shift+S, para otro). **Abrir proyecto…** (Ctrl+Shift+O) lo restaura sin volver a eliminar el fondo: exportar sin cambios da los mismos BMP que antes de guardar, o cambia el ancho para grabarlo en otro tamaño. Los archivos exportados siguen tomando el nombre de la foto de origen. El historial de **Deshacer trazo** no se guarda.
+
+El título de la ventana muestra un `*` si hay cambios sin guardar; al abrir otra foto o proyecto, o al cerrar, el programa pregunta si guardarlos.
+
 ### Plantilla de calibración
 
 Antes de grabar una foto en una madera nueva, graba la plantilla para elegir la potencia de cada capa tonal:

@@ -28,13 +28,11 @@ class PanelExportar(QGroupBox):
         self.ancho.setRange(10, 1000)
         self.ancho.setDecimals(1)
         self.ancho.setSuffix(" mm")
-        self.ancho.setValue(documento.ajustes.ancho_mm)
         self.ancho.valueChanged.connect(lambda v: documento.cambiar_ajustes(ancho_mm=v))
 
         self.dpi = QSpinBox()
         self.dpi.setRange(50, 1200)
         self.dpi.setSuffix(" DPI")
-        self.dpi.setValue(documento.ajustes.dpi)
         self.dpi.valueChanged.connect(lambda v: documento.cambiar_ajustes(dpi=v))
 
         self.info = QLabel()
@@ -57,6 +55,12 @@ class PanelExportar(QGroupBox):
 
     def _actualizar(self) -> None:
         doc = self.documento
+        # Refleja los ajustes (p. ej. al abrir un proyecto) sin volver a avisar al documento.
+        for control, valor in ((self.ancho, doc.ajustes.ancho_mm), (self.dpi, doc.ajustes.dpi)):
+            if control.value() != valor:
+                control.blockSignals(True)
+                control.setValue(valor)
+                control.blockSignals(False)
         self.boton.setEnabled(doc.tiene_foto)
         if not doc.tiene_foto:
             self.info.setText("Abre una foto para empezar.")
@@ -70,7 +74,8 @@ class PanelExportar(QGroupBox):
 
     def _exportar(self) -> None:
         doc = self.documento
-        carpeta = QFileDialog.getExistingDirectory(self, "Carpeta de exportación", str(doc.ruta.parent))
+        inicio = doc.ruta_proyecto or doc.ruta
+        carpeta = QFileDialog.getExistingDirectory(self, "Carpeta de exportación", str(inicio.parent))
         if not carpeta:
             return
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
