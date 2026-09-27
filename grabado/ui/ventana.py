@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
 from grabado import calibracion
 from grabado.ui.documento import Documento
 from grabado.ui.panel_exportar import PanelExportar
+from grabado.ui.panel_tramado import PanelTramado
 from grabado.ui.vista import VistaImagen
 
 FILTRO_FOTOS = "Fotos (*.jpg *.jpeg *.png *.bmp *.webp)"
@@ -44,6 +45,7 @@ class Ventana(QMainWindow):
         # Cada funcionalidad agrega su panel a esta columna.
         lateral = QWidget()
         self.paneles = QVBoxLayout(lateral)
+        self.paneles.addWidget(PanelTramado(self.documento))
         self.paneles.addWidget(PanelExportar(self.documento))
         self.paneles.addStretch()
         desplazable = QScrollArea()

@@ -44,6 +44,10 @@ _Avoid_: Umbral, límite
 El patrón de puntos con que se rellena cada capa tonal: los puntos son más densos del lado oscuro de la capa y más separados del lado claro, para que haya degradado dentro de ella.
 _Avoid_: Dithering, relleno
 
+**Semitono**:
+Un tipo de tramado en que los puntos se agrupan en manchas redondas sobre una cuadrícula regular y crecen con la densidad, en lugar de repartirse sueltos como en Jarvis, Floyd-Steinberg o Stucki.
+_Avoid_: Halftone, trama de puntos
+
 ### Grabado
 
 **Potencia de capa**:
