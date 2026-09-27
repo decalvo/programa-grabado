@@ -8,13 +8,14 @@ Requiere Python 3.12 o superior y el paquete Microsoft Visual C++ Redistributabl
 
 ```
 python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 ## Usar
 
 ```
-.venv\Scripts\python -m grabado
+cd "C:\Users\decal\Desktop\Programa grabado"
+.\.venv\Scripts\python.exe -m grabado
 ```
 
 1. **Abrir foto…** en la barra superior.
@@ -45,7 +46,7 @@ Antes de grabar una foto en una madera nueva, graba la plantilla para elegir la 
 ## Pruebas
 
 ```
-.venv\Scripts\python -m pytest
+.\.venv\Scripts\python.exe -m pytest
 ```
 
 La prueba con el modelo de IA real es lenta y se salta por defecto; para correrla (con el modelo ya descargado): `$env:GRABADO_PRUEBAS_LENTAS="1"` antes de `pytest`.
